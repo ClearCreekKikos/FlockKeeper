@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlockKeeper – Privacy Policy</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1a;
+      --accent: #2e7d32;
+      --muted: #666;
+      --border: #e0e0e0;
+      --card: #fff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --fg: #e0e0e0;
+        --accent: #66bb6a;
+        --muted: #999;
+        --border: #333;
+        --card: #1e1e1e;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    p, li {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    a { color: var(--accent); }
+    .updated {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">FlockKeeper – Kiko Goat Herd Management App<br>
+      Published by Clear Creek Forge</p>
+
+    <h2>1. Introduction</h2>
+    <p>Clear Creek Forge ("we", "us", or "our") built the FlockKeeper application ("the App") as a livestock herd-management tool. This Privacy Policy explains what information the App collects, how it is used, and the choices you have regarding your data.</p>
+    <p>By using FlockKeeper you agree to the collection and use of information as described in this policy.</p>
+
+    <h2>2. Information We Collect</h2>
+
+    <p><strong>2.1 Account Information</strong></p>
+    <p>When you create an account or sign in, we collect:</p>
+    <ul>
+      <li><strong>Email address</strong> – used for authentication, email verification, and account recovery.</li>
+      <li><strong>Password</strong> (if using email sign-up) – securely hashed and stored by our authentication provider (Supabase). We never store or view your plain-text password.</li>
+      <li><strong>OAuth profile data</strong> (if using social sign-in) – when you sign in with Google, Facebook, or Apple, we receive your name and email address from the provider. We do not receive or store your social-media password.</li>
+    </ul>
+
+    <p><strong>2.2 Herd &amp; Ranch Data</strong></p>
+    <p>All animal records, health logs, breeding records, financial transactions, weight histories, pasture notes, inventory items, supplier information, and pedigree data you enter are stored in a local on-device SQLite database. This data is created and controlled entirely by you.</p>
+
+    <p><strong>2.3 Cloud Sync Data</strong></p>
+    <p>If you choose to enable cloud sync, the data described in Section 2.2 — plus any animal photos you have attached — is uploaded to our cloud service (hosted on Supabase) so it can be restored or synced across your devices. Synced data is stored under your authenticated user account and is not shared with other users.</p>
+
+    <p><strong>2.4 Photos &amp; Images</strong></p>
+    <p>The App allows you to attach photos to animal records using your device's camera or photo gallery. Photos are stored locally and, if cloud sync is enabled, uploaded to secure cloud storage under your account.</p>
+
+    <p><strong>2.5 Microphone &amp; Voice Commands</strong></p>
+    <p>The App requests microphone access to enable hands-free voice command entry (e.g., logging weights, adding animals). Voice audio is processed on-device using the platform's speech-to-text engine. <strong>We do not record, transmit, or store audio.</strong></p>
+
+    <p><strong>2.6 Exported Files</strong></p>
+    <p>You may export your data as CSV, Excel, or PDF files. These files are saved to your device's local storage. We do not have access to exported files.</p>
+
+    <p><strong>2.7 Location Data</strong></p>
+    <p>If you grant the App location permissions, we collect:</p>
+    <ul>
+      <li><strong>GPS coordinates (latitude and longitude)</strong> – used solely to associate coordinates with pasture records and herd health logs. Location data is stored in your local database and, if cloud sync is enabled, synced securely under your account. We do not track your location or share it with third parties.</li>
+    </ul>
+
+    <h2>3. How We Use Your Information</h2>
+    <ul>
+      <li><strong>Authenticate you</strong> and manage your account session.</li>
+      <li><strong>Store and display your herd data</strong> so you can manage your ranch.</li>
+      <li><strong>Sync your data</strong> across devices when you opt in to cloud backup.</li>
+      <li><strong>Generate alerts and reports</strong> (e.g., low-stock inventory, breeding due dates) — all processed on-device.</li>
+    </ul>
+    <p>We do <strong>not</strong> use your data for advertising, profiling, analytics, or any purpose other than providing the App's core functionality to you.</p>
+
+    <h2>4. Data Sharing &amp; Third Parties</h2>
+    <p>We do <strong>not</strong> sell, rent, or share your personal data with any third party for marketing or advertising purposes.</p>
+    <p>The App uses the following third-party services solely to operate:</p>
+    <ul>
+      <li><strong>Supabase</strong> (authentication &amp; cloud storage) – <a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase Privacy Policy</a></li>
+      <li><strong>Google Sign-In</strong> (optional OAuth login) – <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+      <li><strong>Facebook Login</strong> (optional OAuth login) – <a href="https://www.facebook.com/privacy/policy" target="_blank" rel="noopener">Meta Privacy Policy</a></li>
+      <li><strong>Sign in with Apple</strong> (optional OAuth login) – <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple Privacy Policy</a></li>
+      <li><strong>Google Fonts</strong> (typography) – fonts are bundled with the App; no runtime requests are made to Google servers.</li>
+    </ul>
+
+    <h2>5. Data Storage &amp; Security</h2>
+    <ul>
+      <li>Local data is stored in an SQLite database on your device's private application storage, protected by the operating system's sandboxing.</li>
+      <li>Cloud-synced data is transmitted over HTTPS/TLS and stored in Supabase's infrastructure with row-level security enforced per user.</li>
+      <li>Passwords are hashed using industry-standard algorithms; we never have access to your plain-text credentials.</li>
+    </ul>
+
+    <h2>6. Your Rights &amp; Choices</h2>
+    <ul>
+      <li><strong>Offline use</strong> – You can use the App entirely offline without creating an account. No data leaves your device in this mode.</li>
+      <li><strong>Delete your data</strong> – You can delete individual records from within the App. To permanently delete your account and all associated data (local and cloud), go to <em>Settings → Cloud Sync Settings → Delete Account &amp; All Data</em>. This removes all your records, uploaded files, and profile information from our servers and your device.</li>
+      <li><strong>Revoke permissions</strong> – You can revoke microphone, location, or photo access at any time through your device's system settings.</li>
+      <li><strong>Export your data</strong> – You can export your full herd records as CSV, Excel, or PDF at any time.</li>
+    </ul>
+
+    <h2>7. Children's Privacy</h2>
+    <p>FlockKeeper is not directed at children under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us so we can remove it.</p>
+
+    <h2>8. Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with a revised "Last updated" date. Continued use of the App after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>9. Contact Us</h2>
+    <p>If you have any questions or requests regarding this Privacy Policy or your data, please contact us at:</p>
+    <p><strong>Email:</strong> <a href="mailto:support@clearcreekforge.com">support@clearcreekforge.com</a></p>
+
+    <div class="updated">Last updated: June 28, 2026</div>
+  </div>
+</body>
+</html>

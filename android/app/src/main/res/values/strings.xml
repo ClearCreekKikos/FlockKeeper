@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shortcut_short_label">Voice Assistant</string>
+    <string name="shortcut_long_label">Open Voice Assistant to log goat records</string>
+</resources>

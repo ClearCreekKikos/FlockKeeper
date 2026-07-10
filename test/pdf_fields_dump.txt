@@ -1,0 +1,217 @@
+=========================================
+File: NKR DNA Request Form 050126 (1).pdf
+=========================================
+Total fields: 20
+  - Name: "Text65" | Type: PdfTextBoxField
+  - Name: "Text66" | Type: PdfTextBoxField
+  - Name: "Text67" | Type: PdfTextBoxField
+  - Name: "Text68" | Type: PdfTextBoxField
+  - Name: "Text69" | Type: PdfTextBoxField
+  - Name: "Text70" | Type: PdfTextBoxField
+  - Name: "Text71" | Type: PdfTextBoxField
+  - Name: "Text72" | Type: PdfTextBoxField
+  - Name: "Text74" | Type: PdfTextBoxField
+  - Name: "Text75" | Type: PdfTextBoxField
+  - Name: "Text76" | Type: PdfTextBoxField
+  - Name: "Text77" | Type: PdfTextBoxField
+  - Name: "Text78" | Type: PdfTextBoxField
+  - Name: "Text79" | Type: PdfTextBoxField
+  - Name: "Text80" | Type: PdfTextBoxField
+  - Name: "Text81" | Type: PdfTextBoxField
+  - Name: "Text82" | Type: PdfTextBoxField
+  - Name: "Text83" | Type: PdfTextBoxField
+  - Name: "Text84" | Type: PdfTextBoxField
+  - Name: "Text85" | Type: PdfTextBoxField
+=========================================
+File: NKR Dual Register Form 050126.pdf
+=========================================
+Total fields: 48
+  - Name: "Animals NameRow1" | Type: PdfTextBoxField
+  - Name: "Registration NoRow1" | Type: PdfTextBoxField
+  - Name: "ColorRow1" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow1" | Type: PdfTextBoxField
+  - Name: "Animals NameRow2" | Type: PdfTextBoxField
+  - Name: "Registration NoRow2" | Type: PdfTextBoxField
+  - Name: "ColorRow2" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow2" | Type: PdfTextBoxField
+  - Name: "Animals NameRow3" | Type: PdfTextBoxField
+  - Name: "Registration NoRow3" | Type: PdfTextBoxField
+  - Name: "ColorRow3" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow3" | Type: PdfTextBoxField
+  - Name: "Animals NameRow4" | Type: PdfTextBoxField
+  - Name: "Registration NoRow4" | Type: PdfTextBoxField
+  - Name: "ColorRow4" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow4" | Type: PdfTextBoxField
+  - Name: "Animals NameRow5" | Type: PdfTextBoxField
+  - Name: "Registration NoRow5" | Type: PdfTextBoxField
+  - Name: "ColorRow5" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow5" | Type: PdfTextBoxField
+  - Name: "Animals NameRow6" | Type: PdfTextBoxField
+  - Name: "Registration NoRow6" | Type: PdfTextBoxField
+  - Name: "ColorRow6" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow6" | Type: PdfTextBoxField
+  - Name: "Animals NameRow7" | Type: PdfTextBoxField
+  - Name: "Registration NoRow7" | Type: PdfTextBoxField
+  - Name: "ColorRow7" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow7" | Type: PdfTextBoxField
+  - Name: "Animals NameRow8" | Type: PdfTextBoxField
+  - Name: "Registration NoRow8" | Type: PdfTextBoxField
+  - Name: "ColorRow8" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow8" | Type: PdfTextBoxField
+  - Name: "Animals NameRow9" | Type: PdfTextBoxField
+  - Name: "Registration NoRow9" | Type: PdfTextBoxField
+  - Name: "ColorRow9" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow9" | Type: PdfTextBoxField
+  - Name: "Animals NameRow10" | Type: PdfTextBoxField
+  - Name: "Registration NoRow10" | Type: PdfTextBoxField
+  - Name: "ColorRow10" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow10" | Type: PdfTextBoxField
+  - Name: "Owners Signature" | Type: PdfSignatureField
+  - Name: "Date" | Type: PdfTextBoxField
+  - Name: "Name" | Type: PdfTextBoxField
+  - Name: "Phone" | Type: PdfTextBoxField
+  - Name: "Address" | Type: PdfTextBoxField
+  - Name: "Client #" | Type: PdfTextBoxField
+  - Name: "Prefix" | Type: PdfTextBoxField
+  - Name: "E-mail" | Type: PdfTextBoxField
+=========================================
+File: NKR Order Form-Fees 050126 (1).pdf
+=========================================
+Total fields: 36
+  - Name: "Name" | Type: PdfTextBoxField
+  - Name: "Text5" | Type: PdfTextBoxField
+  - Name: "Text7" | Type: PdfTextBoxField
+  - Name: "Text8" | Type: PdfTextBoxField
+  - Name: "Text9" | Type: PdfTextBoxField
+  - Name: "Text10" | Type: PdfTextBoxField
+  - Name: "Text11" | Type: PdfTextBoxField
+  - Name: "Text12" | Type: PdfTextBoxField
+  - Name: "Text14" | Type: PdfTextBoxField
+  - Name: "Text15" | Type: PdfTextBoxField
+  - Name: "Text16" | Type: PdfTextBoxField
+  - Name: "Text17" | Type: PdfTextBoxField
+  - Name: "Text18" | Type: PdfTextBoxField
+  - Name: "Text19" | Type: PdfTextBoxField
+  - Name: "Text20" | Type: PdfTextBoxField
+  - Name: "Text21" | Type: PdfTextBoxField
+  - Name: "Text22" | Type: PdfTextBoxField
+  - Name: "Text23" | Type: PdfTextBoxField
+  - Name: "Text24" | Type: PdfTextBoxField
+  - Name: "Text25" | Type: PdfTextBoxField
+  - Name: "Text26" | Type: PdfTextBoxField
+  - Name: "Text27" | Type: PdfTextBoxField
+  - Name: "Text28" | Type: PdfTextBoxField
+  - Name: "Text29" | Type: PdfTextBoxField
+  - Name: "Text30" | Type: PdfTextBoxField
+  - Name: "Text31" | Type: PdfTextBoxField
+  - Name: "Text32" | Type: PdfTextBoxField
+  - Name: "Check Box34" | Type: PdfCheckBoxField
+  - Name: "Check Box35" | Type: PdfCheckBoxField
+  - Name: "Check Box36" | Type: PdfCheckBoxField
+  - Name: "Text37" | Type: PdfTextBoxField
+  - Name: "Text38" | Type: PdfTextBoxField
+  - Name: "Text39" | Type: PdfTextBoxField
+  - Name: "Text41" | Type: PdfTextBoxField
+  - Name: "Text42" | Type: PdfTextBoxField
+  - Name: "Text43" | Type: PdfTextBoxField
+=========================================
+File: NKR Registration Application 050126 (1).pdf
+=========================================
+Total fields: 43
+  - Name: "Name" | Type: PdfTextBoxField
+  - Name: "Phone" | Type: PdfTextBoxField
+  - Name: "Mailing address" | Type: PdfTextBoxField
+  - Name: "NKR Client" | Type: PdfTextBoxField
+  - Name: "NKR Herd Prefix" | Type: PdfTextBoxField
+  - Name: "Email" | Type: PdfTextBoxField
+  - Name: "Buck" | Type: PdfCheckBoxField
+  - Name: "Doe" | Type: PdfCheckBoxField
+  - Name: "100 New Zealand" | Type: PdfCheckBoxField
+  - Name: "Purebred" | Type: PdfCheckBoxField
+  - Name: "Percentage" | Type: PdfCheckBoxField
+  - Name: "Name of Animal Maximum 30 charactersMust include Herd Prefix" | Type: PdfTextBoxField
+  - Name: "Birth Date" | Type: PdfTextBoxField
+  - Name: "Tag" | Type: PdfTextBoxField
+  - Name: "Tattoos R Ear" | Type: PdfTextBoxField
+  - Name: "L Ear" | Type: PdfTextBoxField
+  - Name: "Microchip Number" | Type: PdfTextBoxField
+  - Name: "Birth Number Single" | Type: PdfCheckBoxField
+  - Name: "Twin" | Type: PdfCheckBoxField
+  - Name: "Triplet" | Type: PdfCheckBoxField
+  - Name: "Quad" | Type: PdfCheckBoxField
+  - Name: "Quint" | Type: PdfCheckBoxField
+  - Name: "Color" | Type: PdfTextBoxField
+  - Name: "Sires Reg" | Type: PdfTextBoxField
+  - Name: "OPTIONAL  Sires UC Davis VGL" | Type: PdfTextBoxField
+  - Name: "Dams Reg" | Type: PdfTextBoxField
+  - Name: "OPTIONAL Dams UCDavis VGL" | Type: PdfTextBoxField
+  - Name: "OPTIONAL  Birth Weight" | Type: PdfTextBoxField
+  - Name: "90Day Wt" | Type: PdfTextBoxField
+  - Name: "150Day Wt" | Type: PdfTextBoxField
+  - Name: "1Year Wt" | Type: PdfTextBoxField
+  - Name: "Hair sample for DNA testing is attached Yes" | Type: PdfCheckBoxField
+  - Name: "No" | Type: PdfCheckBoxField
+  - Name: "Buyer" | Type: PdfTextBoxField
+  - Name: "Phone_2" | Type: PdfTextBoxField
+  - Name: "Date of Sale" | Type: PdfTextBoxField
+  - Name: "Buyers Mailing Address" | Type: PdfTextBoxField
+  - Name: "Buyers NKR Client" | Type: PdfTextBoxField
+  - Name: "Buyers NKR Herd Prefix" | Type: PdfTextBoxField
+  - Name: "Buyers Email" | Type: PdfTextBoxField
+  - Name: "Sellers Signature" | Type: PdfSignatureField
+  - Name: "Breeders Signature" | Type: PdfSignatureField
+  - Name: "Date" | Type: PdfTextBoxField
+=========================================
+File: NKR transfer form-050126 (1).pdf
+=========================================
+Total fields: 50
+  - Name: "Name" | Type: PdfTextBoxField
+  - Name: "Phone" | Type: PdfTextBoxField
+  - Name: "Mailing address" | Type: PdfTextBoxField
+  - Name: "NKR Client" | Type: PdfTextBoxField
+  - Name: "NKR Herd Prefix" | Type: PdfTextBoxField
+  - Name: "Email" | Type: PdfTextBoxField
+  - Name: "Name_2" | Type: PdfTextBoxField
+  - Name: "Phone_2" | Type: PdfTextBoxField
+  - Name: "Mailing address_2" | Type: PdfTextBoxField
+  - Name: "NKR Client_2" | Type: PdfTextBoxField
+  - Name: "NKR Herd Prefix_2" | Type: PdfTextBoxField
+  - Name: "Email_2" | Type: PdfTextBoxField
+  - Name: "Animals NameRow1" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow1" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow1" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow1" | Type: PdfTextBoxField
+  - Name: "Animals NameRow2" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow2" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow2" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow2" | Type: PdfTextBoxField
+  - Name: "Animals NameRow3" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow3" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow3" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow3" | Type: PdfTextBoxField
+  - Name: "Animals NameRow4" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow4" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow4" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow4" | Type: PdfTextBoxField
+  - Name: "Animals NameRow5" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow5" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow5" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow5" | Type: PdfTextBoxField
+  - Name: "Animals NameRow6" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow6" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow6" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow6" | Type: PdfTextBoxField
+  - Name: "Animals NameRow7" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow7" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow7" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow7" | Type: PdfTextBoxField
+  - Name: "Animals NameRow8" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow8" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow8" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow8" | Type: PdfTextBoxField
+  - Name: "Animals NameRow9" | Type: PdfTextBoxField
+  - Name: "NKR Registration NoRow9" | Type: PdfTextBoxField
+  - Name: "Date of BirthRow9" | Type: PdfTextBoxField
+  - Name: "VGL No OptionalRow9" | Type: PdfTextBoxField
+  - Name: "Sellers Signature" | Type: PdfSignatureField
+  - Name: "Date of Sale" | Type: PdfTextBoxField
