@@ -1,13 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../database/database_helper.dart';
-import '../models/milking_record_model.dart';
+import '../models/egg_collection_model.dart';
 import '../models/meat_record_model.dart';
 
 final productionRepositoryProvider = Provider((ref) => ProductionRepository());
 
-final milkingHistoryProvider = FutureProvider.family<List<MilkingRecord>, int>((ref, animalId) {
-  return ref.watch(productionRepositoryProvider).getMilkingRecordsForAnimal(animalId);
+final eggCollectionHistoryProvider = FutureProvider.family<List<EggCollection>, int>((ref, animalId) {
+  return ref.watch(productionRepositoryProvider).getEggCollectionsForAnimal(animalId);
 });
+
+final milkingHistoryProvider = eggCollectionHistoryProvider;
 
 final meatHistoryProvider = FutureProvider.family<List<MeatRecord>, int>((ref, animalId) {
   return ref.watch(productionRepositoryProvider).getMeatRecordsForAnimal(animalId);
@@ -16,9 +18,9 @@ final meatHistoryProvider = FutureProvider.family<List<MeatRecord>, int>((ref, a
 class ProductionRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
-  // ─── Milking Records CRUD ─────────────────────────────────────────────────
+  // ─── Egg Collection Records CRUD ──────────────────────────────────────────
 
-  Future<int> insertMilkingRecord(MilkingRecord record) async {
+  Future<int> insertEggCollection(EggCollection record) async {
     final now = DateTime.now();
     final withTime = record.copyWith(
       createdAt: now,
@@ -30,17 +32,17 @@ class ProductionRepository {
     );
   }
 
-  Future<List<MilkingRecord>> getMilkingRecordsForAnimal(int animalId) async {
+  Future<List<EggCollection>> getEggCollectionsForAnimal(int animalId) async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableMilkingRecords,
       where: 'animal_id = ?',
       whereArgs: [animalId],
-      orderBy: 'milking_date DESC',
+      orderBy: 'collection_date DESC',
     );
-    return maps.map((map) => MilkingRecord.fromMap(map)).toList();
+    return maps.map((map) => EggCollection.fromMap(map)).toList();
   }
 
-  Future<int> updateMilkingRecord(MilkingRecord record) async {
+  Future<int> updateEggCollection(EggCollection record) async {
     final now = DateTime.now();
     final withTime = record.copyWith(
       updatedAt: now,
@@ -53,13 +55,18 @@ class ProductionRepository {
     );
   }
 
-  Future<int> deleteMilkingRecord(int id) async {
+  Future<int> deleteEggCollection(int id) async {
     return await _dbHelper.delete(
       DatabaseHelper.tableMilkingRecords,
       where: 'id = ?',
       whereArgs: [id],
     );
   }
+
+  // Compatibility methods
+  Future<int> insertMilkingRecord(EggCollection record) => insertEggCollection(record);
+  Future<int> updateMilkingRecord(EggCollection record) => updateEggCollection(record);
+  Future<int> deleteMilkingRecord(int id) => deleteEggCollection(id);
 
   // ─── Meat Records CRUD ────────────────────────────────────────────────────
 

@@ -47,8 +47,8 @@ class AnimalRepository {
   Future<Animal?> getAnimalByNkrRegNumber(String regNumber) async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableAnimals,
-      where: 'nkr_reg_number = ?',
-      whereArgs: [regNumber],
+      where: 'band_number = ? OR nkr_reg_number = ?',
+      whereArgs: [regNumber, regNumber],
     );
     if (maps.isEmpty) return null;
     return Animal.fromMap(maps.first);
@@ -115,6 +115,7 @@ class AnimalRepository {
       DatabaseHelper.tableAnimals,
       where: '''
         (name LIKE ? OR 
+         band_number LIKE ? OR 
          nkr_reg_number LIKE ? OR 
          ear_tag LIKE ? OR 
          tattoo LIKE ? OR 
@@ -124,6 +125,7 @@ class AnimalRepository {
         AND status = ?
       ''',
       whereArgs: [
+        searchTerm,
         searchTerm,
         searchTerm,
         searchTerm,
@@ -237,8 +239,8 @@ class AnimalRepository {
   }
 
   Future<bool> nkrRegNumberExists(String regNumber, {int? excludeId}) async {
-    String where = 'nkr_reg_number = ?';
-    List<dynamic> whereArgs = [regNumber];
+    String where = '(band_number = ? OR nkr_reg_number = ?)';
+    List<dynamic> whereArgs = [regNumber, regNumber];
 
     if (excludeId != null) {
       where += ' AND id != ?';
@@ -306,8 +308,8 @@ class AnimalRepository {
   Future<Animal?> getAnimalByNkrRegNumberCaseInsensitive(String regNumber) async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableAnimals,
-      where: 'nkr_reg_number = ? COLLATE NOCASE',
-      whereArgs: [regNumber],
+      where: 'band_number = ? COLLATE NOCASE OR nkr_reg_number = ? COLLATE NOCASE',
+      whereArgs: [regNumber, regNumber],
     );
     if (maps.isEmpty) return null;
     return Animal.fromMap(maps.first);
@@ -372,11 +374,11 @@ class AnimalRepository {
   }
 
   Future<Animal?> findDuplicateAnimal(Animal animal, {int? excludeId}) async {
-    // 1. Check NKR Registration Number
-    if (animal.nkrRegNumber != null && animal.nkrRegNumber!.trim().isNotEmpty) {
-      final reg = animal.nkrRegNumber!.trim();
-      String query = 'nkr_reg_number = ? COLLATE NOCASE';
-      List<dynamic> args = [reg];
+    // 1. Check NKR Registration Number (Band Number)
+    if (animal.bandNumber != null && animal.bandNumber!.trim().isNotEmpty) {
+      final reg = animal.bandNumber!.trim();
+      String query = '(band_number = ? COLLATE NOCASE OR nkr_reg_number = ? COLLATE NOCASE)';
+      List<dynamic> args = [reg, reg];
       if (excludeId != null) {
         query += ' AND id != ?';
         args.add(excludeId);

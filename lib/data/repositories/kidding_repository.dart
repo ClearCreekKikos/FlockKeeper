@@ -1,37 +1,37 @@
 // lib/data/repositories/kidding_repository.dart
 
 import '../database/database_helper.dart';
-import '../models/kidding_record_model.dart';
+import '../models/hatch_record_model.dart';
 import '../models/animal_model.dart';
-import '../models/breeding_event_model.dart';
+import '../models/incubation_batch_model.dart';
 
 class KiddingRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
-  Future<int> insertKiddingRecord(KiddingRecord record) async {
+  Future<int> insertKiddingRecord(HatchRecord record) async {
     return await _dbHelper.insert(
       DatabaseHelper.tableKiddingRecords,
       record.toMap(),
     );
   }
 
-  Future<List<KiddingRecord>> getKiddingRecordsForDoe(int doeId) async {
+  Future<List<HatchRecord>> getKiddingRecordsForDoe(int flockId) async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableKiddingRecords,
-      where: 'doe_id = ?',
-      whereArgs: [doeId],
-      orderBy: 'kidding_date DESC',
+      where: 'flock_id = ? OR doe_id = ?',
+      whereArgs: [flockId, flockId],
+      orderBy: 'hatch_date DESC, kidding_date DESC',
     );
-    return maps.map((m) => KiddingRecord.fromMap(m)).toList();
+    return maps.map((m) => HatchRecord.fromMap(m)).toList();
   }
 
-  Future<List<KiddingRecord>> getKidsForBreedingEvent(int breedingEventId) async {
+  Future<List<HatchRecord>> getKidsForBreedingEvent(int batchId) async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableKiddingRecords,
-      where: 'breeding_event_id = ?',
-      whereArgs: [breedingEventId],
+      where: 'batch_id = ? OR breeding_event_id = ?',
+      whereArgs: [batchId, batchId],
     );
-    return maps.map((m) => KiddingRecord.fromMap(m)).toList();
+    return maps.map((m) => HatchRecord.fromMap(m)).toList();
   }
 
   Future<int> deleteKiddingRecord(int id) async {
@@ -42,17 +42,17 @@ class KiddingRepository {
     );
   }
 
-  Future<List<KiddingRecord>> getAllKiddingRecords() async {
+  Future<List<HatchRecord>> getAllKiddingRecords() async {
     final maps = await _dbHelper.query(
       DatabaseHelper.tableKiddingRecords,
-      orderBy: 'kidding_date DESC',
+      orderBy: 'hatch_date DESC, kidding_date DESC',
     );
-    return maps.map((m) => KiddingRecord.fromMap(m)).toList();
+    return maps.map((m) => HatchRecord.fromMap(m)).toList();
   }
 
-  Future<int> updateKiddingRecord(KiddingRecord record) async {
+  Future<int> updateKiddingRecord(HatchRecord record) async {
     if (record.id == null) {
-      throw Exception('Cannot update kidding record without an ID');
+      throw Exception('Cannot update hatch record without an ID');
     }
     return await _dbHelper.update(
       DatabaseHelper.tableKiddingRecords,
@@ -65,7 +65,7 @@ class KiddingRepository {
   Future<void> scanAndCreateKiddingRecords() async {
     final db = await _dbHelper.database;
 
-    // Resolve missing dam_ids by dam_name
+    // Resolve missing dam_ids by dam_name (flockName/damName)
     final missingDamAnimals = await db.query(
       'animals',
       where: 'dam_id IS NULL AND dam_name IS NOT NULL AND dam_name != \'\'',
@@ -75,8 +75,8 @@ class KiddingRepository {
       final damName = map['dam_name'] as String;
       final matches = await db.query(
         'animals',
-        where: 'name = ? COLLATE NOCASE AND sex = ?',
-        whereArgs: [damName.trim(), 'doe'],
+        where: 'name = ? COLLATE NOCASE',
+        whereArgs: [damName.trim()],
       );
       if (matches.isNotEmpty) {
         final damId = matches.first['id'] as int;
@@ -99,8 +99,8 @@ class KiddingRepository {
       final sireName = map['sire_name'] as String;
       final matches = await db.query(
         'animals',
-        where: 'name = ? COLLATE NOCASE AND sex = ?',
-        whereArgs: [sireName.trim(), 'buck'],
+        where: 'name = ? COLLATE NOCASE AND (sex = ? OR sex = ?)',
+        whereArgs: [sireName.trim(), 'rooster', 'buck'],
       );
       if (matches.isNotEmpty) {
         final sireId = matches.first['id'] as int;
@@ -120,15 +120,15 @@ class KiddingRepository {
     );
     if (animalMaps.isEmpty) return;
 
-    // 2. Fetch all active/owned dams to filter the kids
+    // 2. Fetch all active/owned dams/flocks to filter the kids/chicks
     final damMaps = await db.query(
       'animals',
-      where: 'sex = ? AND status = ?',
-      whereArgs: ['doe', 'active'],
+      where: 'status = ?',
+      whereArgs: ['active'],
     );
     final activeDamIds = damMaps.map((m) => m['id'] as int).toSet();
 
-    // Filter kids to only those whose dam is owned (active)
+    // Filter chicks to only those whose source flock/dam is owned (active)
     final kids = animalMaps
         .map((m) => Animal.fromMap(m))
         .where((a) => activeDamIds.contains(a.damId))
@@ -136,9 +136,10 @@ class KiddingRepository {
 
     if (kids.isEmpty) return;
 
-    // 3. Group kids by (damId, sireId, dob date only)
+    // 3. Group chicks by (damId, sireId, dob date only)
     final groups = <String, List<Animal>>{};
     for (final kid in kids) {
+      if (kid.dob == null) continue;
       final dobStr = _formatDateOnly(kid.dob!);
       final sireKey = kid.sireId != null ? kid.sireId.toString() : 'null';
       final key = '${kid.damId}_${sireKey}_$dobStr';
@@ -155,93 +156,91 @@ class KiddingRepository {
       final dob = DateTime.parse(dobStr);
       final kidsInGroup = entry.value;
 
-      // Stable sorting by ID so birthOrder is consistent
+      // Stable sorting by ID so hatchOrder is consistent
       kidsInGroup.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
 
       final litterSize = kidsInGroup.length;
 
-      // Query if there is a pending breeding event for this Dam
+      // Query if there is a pending incubation batch for this flock
       int? breedingEventId;
       final breedingMaps = await db.query(
-        'breeding_events',
-        where: 'doe_id = ? AND actual_kid_date IS NULL',
-        whereArgs: [damId],
+        'incubation_batches',
+        where: '(flock_id = ? OR doe_id = ?) AND actual_hatch_date IS NULL AND actual_kid_date IS NULL',
+        whereArgs: [damId, damId],
       );
-      final pendingEvents = breedingMaps.map((m) => BreedingEvent.fromMap(m)).toList();
+      final pendingEvents = breedingMaps.map((m) => IncubationBatch.fromMap(m)).toList();
       final pendingEvent = pendingEvents.isNotEmpty ? pendingEvents.first : null;
 
       if (pendingEvent != null) {
         breedingEventId = pendingEvent.id;
         final updatedEvent = pendingEvent.copyWith(
-          actualKidDate: dob,
-          outcome: BreedingOutcome.kidded,
+          actualHatchDate: dob,
+          outcome: IncubationOutcome.hatched,
           updatedAt: DateTime.now(),
         );
         await db.update(
-          'breeding_events',
+          'incubation_batches',
           updatedEvent.toMap(),
           where: 'id = ?',
           whereArgs: [pendingEvent.id],
         );
       }
 
-      // Check existing kidding records for this group to reuse breedingEventId if already kidded
+      // Check existing hatch records for this group to reuse batchId if already hatched
       final existingKiddingMaps = await db.query(
-        'kidding_records',
-        where: 'doe_id = ?',
-        whereArgs: [damId],
+        'hatch_records',
+        where: 'flock_id = ? OR doe_id = ?',
+        whereArgs: [damId, damId],
       );
       final existingRecords = existingKiddingMaps
-          .map((m) => KiddingRecord.fromMap(m))
-          .where((k) => _isSameDayStr(k.kiddingDate, dob))
+          .map((m) => HatchRecord.fromMap(m))
+          .where((k) => _isSameDayStr(k.hatchDate, dob))
           .toList();
       if (existingRecords.isNotEmpty && breedingEventId == null) {
-        breedingEventId = existingRecords.first.breedingEventId;
+        breedingEventId = existingRecords.first.batchId;
       }
 
       for (int i = 0; i < kidsInGroup.length; i++) {
         final kid = kidsInGroup[i];
         final birthOrder = i + 1;
 
-        // Check if kidding record already exists for this kid_id
+        // Check if hatch record already exists for this chickId
         final kidKiddingMaps = await db.query(
-          'kidding_records',
-          where: 'kid_id = ?',
-          whereArgs: [kid.id],
+          'hatch_records',
+          where: 'chick_id = ? OR kid_id = ?',
+          whereArgs: [kid.id, kid.id],
         );
 
         if (kidKiddingMaps.isNotEmpty) {
-          // Update existing kidding record
-          final existingRecord = KiddingRecord.fromMap(kidKiddingMaps.first);
+          // Update existing hatch record
+          final existingRecord = HatchRecord.fromMap(kidKiddingMaps.first);
           final updatedRecord = existingRecord.copyWith(
-            litterSize: litterSize,
-            birthOrder: birthOrder,
-            birthType: _getBirthType(litterSize),
-            buckId: sireId,
+            chicksHatched: litterSize,
+            hatchOrder: birthOrder,
+            roosterId: sireId,
           );
           await db.update(
-            'kidding_records',
+            'hatch_records',
             updatedRecord.toMap(),
             where: 'id = ?',
             whereArgs: [existingRecord.id],
           );
         } else {
-          // Insert new kidding record
-          final kiddingRecord = KiddingRecord(
-            breedingEventId: breedingEventId,
-            doeId: damId,
-            buckId: sireId,
-            kidId: kid.id,
-            kidName: kid.name,
-            kiddingDate: dob,
-            birthOrder: birthOrder,
-            litterSize: litterSize,
-            sex: kid.sex == Sex.doe ? KidSex.doe : (kid.sex == Sex.buck ? KidSex.buck : KidSex.unknown),
-            birthType: _getBirthType(litterSize),
-            survivalStatus: SurvivalStatus.alive,
+          // Insert new hatch record
+          final hatchRecord = HatchRecord(
+            batchId: breedingEventId,
+            flockId: damId,
+            roosterId: sireId,
+            chickId: kid.id,
+            chickName: kid.name,
+            hatchDate: dob,
+            hatchOrder: birthOrder,
+            chicksHatched: litterSize,
+            sex: kid.sex == Sex.hen ? KidSex.doe : (kid.sex == Sex.rooster ? KidSex.buck : KidSex.unknown),
+            survivalStatus: HatchSurvival.alive,
             createdAt: DateTime.now(),
           );
-          await db.insert('kidding_records', kiddingRecord.toMap());
+          await db.insert('hatch_records', hatchRecord.toMap());
         }
       }
     }
@@ -253,13 +252,5 @@ class KiddingRepository {
 
   bool _isSameDayStr(DateTime dt1, DateTime dt2) {
     return dt1.year == dt2.year && dt1.month == dt2.month && dt1.day == dt2.day;
-  }
-
-  BirthType _getBirthType(int size) {
-    if (size == 1) return BirthType.single;
-    if (size == 2) return BirthType.twin;
-    if (size == 3) return BirthType.triplet;
-    if (size == 4) return BirthType.quad;
-    return BirthType.other;
   }
 }

@@ -3,7 +3,7 @@
 import 'package:intl/intl.dart';
 import '../../shared/utils/path_resolver.dart';
 
-enum Sex { doe, buck, wether, unknown }
+enum Sex { hen, rooster, pullet, cockerel, chick, mixed, unknown, doe, buck, wether }
 
 enum AnimalStatus { active, sold, deceased, culled, transferred, ancestor }
 
@@ -11,7 +11,7 @@ class Animal {
   final int? id;
   final String name;
   final String? barnName;
-  final String? nkrRegNumber;
+  final String? bandNumber; // Replaces nkrRegNumber
   final String? earTag;
   final String? tattoo;
   final String? rfidTag;
@@ -21,7 +21,7 @@ class Animal {
   final String? idTagPlacement;
   final String? scrapieTag;
   final String? vglId;
-  final DateTime? dob;
+  final DateTime? dob; // For birds, this is Hatch Date
   final Sex sex;
   final String? color;
   final String? markings;
@@ -53,16 +53,21 @@ class Animal {
   final String? deceasedReason;
   final String? photoPath;
   final String? notes;
-  final bool isHerdSire;
+  final bool isHerdSire; // For roosters
   final bool isRegistered;
   final DateTime createdAt;
   final DateTime updatedAt;
+  
+  // Chicken specific flock additions
+  final bool isFlock;
+  final int quantity;
 
   const Animal({
     this.id,
     required this.name,
     this.barnName,
-    this.nkrRegNumber,
+    String? bandNumber,
+    String? nkrRegNumber,
     this.earTag,
     this.tattoo,
     this.rfidTag,
@@ -86,7 +91,7 @@ class Animal {
     this.hornType,
     this.description,
     this.ownershipStatus,
-    this.breed = 'Kiko',
+    this.breed = 'Mixed',
     this.damId,
     this.sireId,
     this.damName,
@@ -108,7 +113,9 @@ class Animal {
     this.isRegistered = false,
     required this.createdAt,
     required this.updatedAt,
-  });
+    this.isFlock = false,
+    this.quantity = 1,
+  }) : bandNumber = bandNumber ?? nkrRegNumber;
 
   // ─── Factory from Database Row ────────────────────────────────────────────
   factory Animal.fromMap(Map<String, dynamic> map) {
@@ -116,7 +123,7 @@ class Animal {
       id: map['id'] as int?,
       name: map['name'] as String,
       barnName: map['barn_name'] as String?,
-      nkrRegNumber: map['nkr_reg_number'] as String?,
+      bandNumber: (map['band_number'] ?? map['nkr_reg_number']) as String?,
       earTag: map['ear_tag'] as String?,
       tattoo: map['tattoo'] as String?,
       rfidTag: map['rfid_tag'] as String?,
@@ -140,7 +147,7 @@ class Animal {
       hornType: map['horn_type'] as String?,
       description: map['description'] as String?,
       ownershipStatus: map['ownership_status'] as String?,
-      breed: map['breed'] as String? ?? 'Kiko',
+      breed: map['breed'] as String? ?? 'Mixed',
       damId: map['dam_id'] as int?,
       sireId: map['sire_id'] as int?,
       damName: map['dam_name'] as String?,
@@ -162,6 +169,8 @@ class Animal {
       isRegistered: (map['is_registered'] as int? ?? 0) == 1,
       createdAt: _parseDate(map['created_at'] as String?) ?? DateTime.now(),
       updatedAt: _parseDate(map['updated_at'] as String?) ?? DateTime.now(),
+      isFlock: (map['is_flock'] as int? ?? 0) == 1,
+      quantity: map['quantity'] as int? ?? 1,
     );
   }
 
@@ -171,7 +180,8 @@ class Animal {
       if (id != null) 'id': id,
       'name': name,
       'barn_name': barnName,
-      'nkr_reg_number': nkrRegNumber,
+      'band_number': bandNumber,
+      'nkr_reg_number': bandNumber, // Retained for compatibility
       'ear_tag': earTag,
       'tattoo': tattoo,
       'rfid_tag': rfidTag,
@@ -217,6 +227,8 @@ class Animal {
       'is_registered': isRegistered ? 1 : 0,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
+      'is_flock': isFlock ? 1 : 0,
+      'quantity': quantity,
     };
   }
 
@@ -225,6 +237,7 @@ class Animal {
     int? id,
     String? name,
     String? barnName,
+    String? bandNumber,
     String? nkrRegNumber,
     String? earTag,
     String? tattoo,
@@ -271,12 +284,14 @@ class Animal {
     bool? isRegistered,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isFlock,
+    int? quantity,
   }) {
     return Animal(
       id: id ?? this.id,
       name: name ?? this.name,
       barnName: barnName ?? this.barnName,
-      nkrRegNumber: nkrRegNumber ?? this.nkrRegNumber,
+      bandNumber: bandNumber ?? nkrRegNumber ?? this.bandNumber,
       earTag: earTag ?? this.earTag,
       tattoo: tattoo ?? this.tattoo,
       rfidTag: rfidTag ?? this.rfidTag,
@@ -322,6 +337,8 @@ class Animal {
       isRegistered: isRegistered ?? this.isRegistered,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      isFlock: isFlock ?? this.isFlock,
+      quantity: quantity ?? this.quantity,
     );
   }
 
@@ -343,14 +360,33 @@ class Animal {
     }
   }
 
-  String get displayName => '$name${earTag != null && earTag!.isNotEmpty ? ' ($earTag)' : ''}';
+  String get displayName {
+    final suffix = (bandNumber != null && bandNumber!.isNotEmpty) 
+        ? bandNumber 
+        : ((earTag != null && earTag!.isNotEmpty) ? earTag : null);
+    return '$name${suffix != null && suffix.isNotEmpty ? ' ($suffix)' : ''}';
+  }
+
+  String? get nkrRegNumber => bandNumber;
 
   String get sexDisplay {
     switch (sex) {
+      case Sex.hen:
+        return 'Hen';
       case Sex.doe:
         return 'Doe';
+      case Sex.rooster:
+        return 'Rooster';
       case Sex.buck:
         return 'Buck';
+      case Sex.pullet:
+        return 'Pullet';
+      case Sex.cockerel:
+        return 'Cockerel';
+      case Sex.chick:
+        return 'Chick';
+      case Sex.mixed:
+        return 'Mixed/Unsexed';
       case Sex.wether:
         return 'Wether';
       case Sex.unknown:
@@ -381,7 +417,6 @@ class Animal {
     try {
       return DateTime.parse(dateStr);
     } catch (_) {
-      // Fallback for different formats
       try {
         return DateFormat('yyyy-MM-dd').parse(dateStr);
       } catch (_) {
@@ -392,16 +427,27 @@ class Animal {
 
   static Sex _parseSex(String? sexStr) {
     switch (sexStr?.toLowerCase()) {
-      case 'doe':
+      case 'hen':
+        return Sex.hen;
       case 'female':
       case 'f':
+      case 'doe':
         return Sex.doe;
-      case 'buck':
+      case 'rooster':
+        return Sex.rooster;
       case 'male':
       case 'm':
+      case 'buck':
         return Sex.buck;
+      case 'pullet':
+        return Sex.pullet;
+      case 'cockerel':
+        return Sex.cockerel;
+      case 'chick':
+        return Sex.chick;
+      case 'mixed':
+        return Sex.mixed;
       case 'wether':
-      case 'w':
         return Sex.wether;
       default:
         return Sex.unknown;
@@ -429,7 +475,7 @@ class Animal {
 
   @override
   String toString() {
-    return 'Animal(id: $id, name: $name, earTag: $earTag, nkr: $nkrRegNumber, secondReg: $secondRegNumber, sex: ${sex.name})';
+    return 'Animal(id: $id, name: $name, bandNumber: $bandNumber, sex: ${sex.name}, isFlock: $isFlock, quantity: $quantity)';
   }
 
   @override
